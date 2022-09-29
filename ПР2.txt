@@ -1,0 +1,36 @@
+﻿--Задачи 
+1) Найдите людей и их номера телефонов, код города которых начинается на  4 и заканчивается на 5.
+( таблицы Person.PersonPhone, Person.Person) 
+
+SELECT FirstName, LastName, PhoneNumber
+FROM AdventureWorks2017.Person.Person PP LEFT JOIN AdventureWorks2017.Person.PersonPhone PPH ON PP.BusinessEntityID=PPH.BusinessEntityID
+WHERE PhoneNumber LIKE '4_5%'
+
+
+2) Отнести каждого человека из [HumanResources].[Employee] в свою возрастную категорию:
+Adolescence: 17-20
+Adults: 21-59
+Elderly: 60-75
+Senile: 76-90
+
+SELECT BusinessEntityID,
+	CASE WHEN DATEDIFF(YEAR, BirthDate, GETDATE()) > 17 AND DATEDIFF(YEAR, BirthDate, GETDATE()) < 20 THEN 'Adolescence'
+		 WHEN DATEDIFF(YEAR, BirthDate, GETDATE()) > 21 AND DATEDIFF(YEAR, BirthDate, GETDATE()) < 59 THEN 'Adults'
+		 WHEN DATEDIFF(YEAR, BirthDate, GETDATE()) > 60 AND DATEDIFF(YEAR, BirthDate, GETDATE()) < 75 THEN 'Elderly'
+		 WHEN DATEDIFF(YEAR, BirthDate, GETDATE()) > 76 AND DATEDIFF(YEAR, BirthDate, GETDATE()) < 90 THEN 'Senile'
+	END
+FROM AdventureWorks2017.HumanResources.Employee
+
+3) Вывести самый дорогой продукт для каждого цвета из [Production].[Product]
+
+SELECT Name, Color, MAX(ListPrice) OVER (PARTITION BY Color)
+FROM AdventureWorks2017.Production.Product
+
+SELECT Color, MAX(ListPrice)
+FROM AdventureWorks2017.Production.Product
+GROUP BY Color 
+
+
+
+
+
