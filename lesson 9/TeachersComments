@@ -1,0 +1,6 @@
+Well done!
+
+-2
+As I said on the lesson, there is only one table. The solution is to join table to itself on id_father=id.
+
+Mark: 8
