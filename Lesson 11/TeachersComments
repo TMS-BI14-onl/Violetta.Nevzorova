@@ -1,0 +1,16 @@
+Well done!
+
+No negative comments, great job!
+
+Test:
+
+1
+-1
+Why can't we use general aggregative function and not window one?
+
+2
+-1.5
+Same + not-needed subquery (subquery doesn't have even a single change comparing to the inner query result)
+
+Mark: 10
+Test mark: 8
