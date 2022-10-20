@@ -1,0 +1,50 @@
+﻿1. Найти ProductSubcategoryID из Production.Product, где мин вес такого ProductSubcategoryID больше 150. 
+
+SELECT ProductSubcategoryID, MIN(Weight) AS mon_weight
+FROM AdventureWorks2017.Production.Product
+GROUP BY ProductSubcategoryID 
+HAVING MIN(Weight)>150
+
+
+2. Найти самый дорогой продукт (поле StandardCost) из Production.Product. (4 способа)
+
+SELECT TOP 1 Name, MAX(StandardCost) AS max_cost
+FROM AdventureWorks2017.Production.Product
+GROUP BY Name
+ORDER BY max_cost DESC
+
+SELECT Name
+FROM AdventureWorks2017.Production.Product
+WHERE StandardCost  =(SELECT MAX(StandardCost) AS max_price
+	 		 			FROM AdventureWorks2017.Production.Product)
+
+SELECT Name
+FROM (SELECT Name, StandardCost, MAX(StandardCost) OVER() AS max_cost
+		FROM AdventureWorks2017.Production.Product) t
+WHERE StandardCost = max_cost
+
+SELECT Name, StandardCost
+FROM (SELECT Name, StandardCost, RANK() OVER (ORDER BY StandardCost DESC) AS rank_cost
+		FROM AdventureWorks2017.Production.Product) t
+WHERE rank_cost=1
+
+
+
+
+3. Найти магазины, в которых за последний год не было куплено ни одного продукта. (схема GROUP1)
+
+SELECT StoreID
+FROM Store_dim
+EXCEPT
+SELECT StoreID
+FROM Sales_fct sf JOIN Store_dim sd ON sf.StoreID=sd.StoreID
+WHERE DATEDIFF(year, OrderDate, Getdate) < 1 
+
+4. Найти для каждого продавца кол-во продаж за последние 15 лет.  (схема GROUP3)
+
+
+SELECT SellerID, Name, Last_Name, COUNT(1) as cnt
+FROM Sales_fct sf LEFT JOIN Seller_dim sd ON sf.SellerID=sd.SellerID
+WHERE DATEDIFF(year, Date, GETDATE()) <= 15
+GROUP BY SellerID, Name, Last_Name
+
