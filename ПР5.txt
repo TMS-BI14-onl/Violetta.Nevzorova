@@ -50,4 +50,4 @@ GROUP BY SellerID, Name, Last_Name
 
 
 
-MARK - 10
+MARK - 8
