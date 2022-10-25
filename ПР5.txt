@@ -48,3 +48,6 @@ FROM Sales_fct sf LEFT JOIN Seller_dim sd ON sf.SellerID=sd.SellerID
 WHERE DATEDIFF(year, Date, GETDATE()) <= 15
 GROUP BY SellerID, Name, Last_Name
 
+
+
+MARK - 8
